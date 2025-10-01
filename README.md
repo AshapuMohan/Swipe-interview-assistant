@@ -1,46 +1,203 @@
-# Getting Started with Create React App
+# Crisp Interview Assistant 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An AI-powered interview assistant platform built for the Swipe Internship Assignment. This application provides a seamless interview experience for both candidates and interviewers.
+
+## Features
+
+### For Candidates (Interviewee Tab)
+- **Resume Upload**: Support for PDF and DOCX formats (or skip and enter manually)
+- **Automatic Data Extraction**: Attempts to extract Name, Email, and Phone from resume
+- **Smart Form Validation**: Prompts for missing information before starting
+- **Manual Entry Option**: Skip resume upload and enter details directly
+- **Timed Interview Questions**: 
+  - 2 Easy questions (60 seconds each)
+  - 2 Medium questions (120 seconds each)
+  - 2 Hard questions (180 seconds each)
+- **Auto-Submit**: Answers automatically submitted when timer expires
+- **AI Scoring**: Final score and summary provided after completion
+- **Session Persistence**: Resume from where you left off with "Welcome Back" modal
+
+### For Interviewers (Dashboard Tab)
+- **Candidate Management**: View all candidates sorted by score
+- **Detailed Profiles**: Access candidate information, resume, and chat history
+- **Search & Filter**: Find candidates quickly with advanced search
+- **AI Summaries**: View AI-generated evaluation summaries
+- **Real-time Updates**: Live status tracking of interviews
+
+## Tech Stack
+
+- **Frontend**: React 19 with TypeScript
+- **State Management**: Redux Toolkit with Redux Persist
+- **UI Library**: Ant Design 5
+- **Routing**: React Router v6
+- **Data Persistence**: LocalStorage with Redux Persist
+- **Styling**: CSS3 with responsive design
+- **Icons**: Ant Design Icons
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd crisp-interview-assistant
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. **Configure AI API (Optional but Recommended)**:
+```bash
+# Copy the example env file
+copy .env.example .env
+
+# Get your free Gemini API key from:
+# https://makersuite.google.com/app/apikey
+
+# Add to .env file:
+REACT_APP_GEMINI_API_KEY=your_api_key_here
+```
+
+4. Start the development server:
+```bash
+npm start
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+**Note**: The app works without an API key using fallback AI scoring, but real AI judging provides better results.
+
+## Project Structure
+
+```
+crisp-interview-assistant/
+├── public/              # Static files
+├── src/
+│   ├── components/      # Reusable components
+│   ├── features/        # Feature-specific components
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Page components
+│   ├── store/          # Redux store and slices
+│   ├── types/          # TypeScript type definitions
+│   ├── utils/          # Utility functions
+│   ├── App.tsx         # Main app component
+│   └── index.tsx       # Entry point
+├── package.json
+└── README.md
+```
+
+## Key Components
+
+### Pages
+- **HomePage**: Landing page with role selection
+- **IntervieweePage**: Candidate interview interface
+- **InterviewerPage**: Interviewer dashboard
+- **NotFoundPage**: 404 error page
+
+### Store Slices
+- **interviewSlice**: Manages interview session state
+- **candidateSlice**: Manages candidate data
+
+### Utilities
+- **questionGenerator**: Generates interview questions
+- **resumeParser**: Extracts data from resumes
+- **useTimer**: Custom hook for countdown timers
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000)
 
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in interactive watch mode
 
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `build` folder
 
 ### `npm run eject`
+Ejects from Create React App (one-way operation)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Deployment
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Deploy to Vercel
+```bash
+npm run build
+# Deploy the build folder to Vercel
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Deploy to Netlify
+```bash
+npm run build
+# Deploy the build folder to Netlify
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Features Implementation
 
-## Learn More
+### Resume Upload & Parsing
+- Supports PDF and DOCX file formats
+- Maximum file size: 5MB
+- **Real PDF Parsing**: Uses `pdfjs-dist` to extract text from PDF files
+- **Real DOCX Parsing**: Uses `mammoth` to extract text from DOCX files
+- Automatically extracts: Name, Email, Phone Number using regex patterns
+- Validates extracted data
+- **Fallback**: If extraction fails, users can manually enter information or skip upload entirely
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Interview Flow
+- Dynamic question generation based on difficulty
+- Countdown timer for each question
+- Auto-submit on timeout
+- Progress tracking
+- Session persistence
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Data Persistence
+- Redux Persist with LocalStorage
+- Saves interview progress
+- Restores unfinished sessions
+- "Welcome Back" modal for returning users
+
+### Interviewer Dashboard
+- Sortable candidate table
+- Search functionality
+- Filter by status and position
+- Detailed candidate view modal
+- AI evaluation metrics
+
+## Interview Questions
+
+The application includes a comprehensive question bank for Full Stack (React/Node) roles:
+
+- **Easy**: React basics, JavaScript fundamentals
+- **Medium**: React hooks, Express middleware, async programming
+- **Hard**: System design, performance optimization, security
+
+## Security Considerations
+
+- Client-side data validation
+- Secure file upload handling
+- XSS prevention
+- CSRF protection ready
+
+## Future Enhancements
+
+- [ ] Real AI integration (OpenAI/Anthropic)
+- [ ] Video interview support
+- [ ] Multi-language support
+- [ ] Advanced analytics dashboard
+- [ ] Email notifications
+- [ ] Calendar integration
+- [ ] Real-time collaboration
+
+## License
+
+This project is created for the Swipe Internship Assignment.
+
+## Author
+
+Built with for Swipe Internship Assignment
+
+## Acknowledgments
+
+- Ant Design for the beautiful UI components
+- Redux team for excellent state management
+- React team for the amazing framework
